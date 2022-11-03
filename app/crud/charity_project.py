@@ -1,4 +1,3 @@
-import operator
 from typing import Optional
 
 from fastapi.encoders import jsonable_encoder
@@ -76,19 +75,20 @@ class CRUDCharityProject(CRUDBase):
     ) -> list():
         charity_projects = await session.execute(
             select([CharityProject.name, CharityProject.create_date,
-                    CharityProject.close_date,CharityProject.description,]
-            ).where(CharityProject.fully_invested)
+                    CharityProject.close_date, CharityProject.description]
+                   ).where(CharityProject.fully_invested)
         )
         charity_projects = charity_projects.all()
         update_projects = []
         for project in charity_projects:
             update_project = dict()
-            time_finish = project.close_date - project.create_date
+            time_finish = str(project.close_date - project.create_date)
             update_project['name'] = project.name
-            update_project['time_finish'] = str(time_finish)
+            update_project['time_finish'] = time_finish
             update_project['description'] = project.description
             update_projects.append(update_project)
-        update_projects.sort(key=operator.itemgetter('name'))  #!!!!!!!!!!!!!остановился здесь
-        return update_projects
+        update_projects_sort = sorted(update_projects, key=lambda d: d['time_finish'])
+        return update_projects_sort
+
 
 charity_project_crud = CRUDCharityProject(CharityProject)
