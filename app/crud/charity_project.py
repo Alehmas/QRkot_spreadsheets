@@ -87,7 +87,8 @@ class CRUDCharityProject(CRUDBase):
             update_project['time_finish'] = time_finish
             update_project['description'] = project.description
             update_projects.append(update_project)
-        update_projects_sort = sorted(update_projects, key=lambda d: d['time_finish'])
+        update_projects_sort = sorted(
+            update_projects, key=lambda d: d['time_finish'])
         return update_projects_sort
 
 

@@ -7,7 +7,9 @@ from app.core.db import get_async_session
 from app.core.google_client import get_service
 from app.core.user import current_superuser
 from app.crud.charity_project import charity_project_crud
-from app.services.google_api import spreadsheets_create, spreadsheets_update_value, set_user_permissions
+from app.services.google_api import (spreadsheets_create,
+                                     spreadsheets_update_value,
+                                     set_user_permissions)
 
 router = APIRouter()
 
@@ -23,12 +25,12 @@ async def get_report(
 
 ):
     """Только для суперюзеров."""
-    charity_project = await charity_project_crud.get_projects_by_completion_rate(
+    char_project = await charity_project_crud.get_projects_by_completion_rate(
         session
     )
-    spreadsheetid = await spreadsheets_create(wrapper_services)
-    await set_user_permissions(spreadsheetid, wrapper_services)
-    await spreadsheets_update_value(spreadsheetid,
-                                    charity_project,
+    spreadsheet_id = await spreadsheets_create(wrapper_services)
+    await set_user_permissions(spreadsheet_id, wrapper_services)
+    await spreadsheets_update_value(spreadsheet_id,
+                                    char_project,
                                     wrapper_services)
-    return charity_project
+    return char_project
