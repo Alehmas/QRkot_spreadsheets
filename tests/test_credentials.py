@@ -2,8 +2,8 @@ try:
     from app.core.config import settings
 except (NameError, ImportError):
     raise AssertionError(
-        'Не обнаружен инициализированный объект `settings`.'
-        'Проверьте и поправьте: он должен быть доступен в модуле `app.core.config`',
+        'No initialized `settings` object found.'
+        'Check and fix: it should be available in the `app.core.config` module',
     )
 
 
@@ -23,5 +23,5 @@ def test_google_cred():
     ]
     for cred in need_cred:
         assert hasattr(settings, cred), (
-            f'В объекте `app.core.config.Settings` нет атрибута `{cred}`'
+            f'There is no `{cred}` attribute in the `app.core.config.Settings` object'
         )
