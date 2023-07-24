@@ -8,9 +8,9 @@ NOW_DATE_TIME = datetime.now
 ROW_COUNT = 100
 COL_COUNT = 11
 TABLE_VALUES = [
-    ['Отчет от', 'Дата отчета'],
-    ['Топ проектов по скорости закрытия'],
-    ['Название проекта', 'Время сбора', 'Описание']
+    ['Report from', 'Report date'],
+    ['Top projects by closing speed'],
+    ['Project name', 'Gathering Time', 'Description']
 ]
 SHEET_TYPE = 'GRID'
 
@@ -21,11 +21,11 @@ async def spreadsheets_body_create(
         row_count: int,
         col_count: int) -> dict:
     spreadsheet_body = {
-        'properties': {'title': f'Отчет на {date_now().strftime(FORMAT)}',
-                       'locale': 'ru_RU'},
+        'properties': {'title': f'Report on {date_now().strftime(FORMAT)}',
+                       'locale': 'en_US'},
         'sheets': [{'properties': {'sheetType': sheet_type,
                                    'sheetId': 0,
-                                   'title': 'Лист1',
+                                   'title': 'Sheet1',
                                    'gridProperties': {'rowCount': row_count,
                                                       'columnCount': col_count
                                                       }}}]
@@ -34,7 +34,7 @@ async def spreadsheets_body_create(
 
 
 async def spreadsheets_create(wrapper_services: Aiogoogle) -> str:
-    """Функция создания таблицы в Google Sheets"""
+    """Create a table in Google Sheets."""
     service = await wrapper_services.discover('sheets', 'v4')
     spreadsheet_body = await spreadsheets_body_create(
         SHEET_TYPE, NOW_DATE_TIME, ROW_COUNT, COL_COUNT)
@@ -49,7 +49,7 @@ async def set_user_permissions(
         spreadsheetid: str,
         wrapper_services: Aiogoogle
 ) -> None:
-    """Функция выдачи прав для работы с документами"""
+    """Grant rights to a personal Google account to access a document."""
     permissions_body = {'type': 'user',
                         'role': 'writer',
                         'emailAddress': settings.email}
@@ -67,7 +67,7 @@ async def spreadsheets_update_value(
         charity_projects: list,
         wrapper_services: Aiogoogle
 ) -> None:
-    """Функция наполнения таблицы в Google Sheets"""
+    """Populate a table in Google Sheets with data."""
     service = await wrapper_services.discover('sheets', 'v4')
     table_values = TABLE_VALUES.copy()
     table_values[0][1] = NOW_DATE_TIME().strftime(FORMAT)
@@ -75,7 +75,7 @@ async def spreadsheets_update_value(
         new_row = [str(project['name']), str(project['time_finish']),
                    str(project['description'])]
         if len(table_values) == ROW_COUNT - 1:
-            table_values.append(['Остальные значения не влезли!!!!!!!!!!'])
+            table_values.append(['The rest of the values ​​did not fit!!!!!!'])
             break
         table_values.append(new_row)
     update_body = {

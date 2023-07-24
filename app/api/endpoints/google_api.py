@@ -24,7 +24,7 @@ async def get_report(
         wrapper_services: Aiogoogle = Depends(get_service)
 
 ):
-    """Только для суперюзеров."""
+    """Only for superusers. Create a report for projects in a Google sheets."""
     char_project = await charity_project_crud.get_projects_by_completion_rate(
         session
     )
