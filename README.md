@@ -43,7 +43,7 @@ The superuser can:
 ## Preparation and launch of the project
 **Step 1** Clone the repository on your local machine:
 ```bash
-git clone git@github.com:Alehmas/cat_charity_fund.git
+git clone git@github.com:Alehmas/QRkot_spreadsheets.git
 ```
 
 **Step 2** Change to a new directory. Initialize and activate the virtual environment
